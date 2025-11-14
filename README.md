@@ -1,2 +1,2 @@
 # HRAP
-FInal project of the Database Systems course.
+[https://youtu.be/NAzth4Bz-Ag](https://youtu.be/NAzth4Bz-Ag)

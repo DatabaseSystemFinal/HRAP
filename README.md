@@ -54,6 +54,14 @@ These manual processes are slow, error-prone, and make data-driven decisions dif
 
 ---
 
+## 🗂 ER Diagram
+
+Below is the Entity-Relationship Diagram for our HRAP system:
+
+<img width="1920" height="1080" alt="HRAP HRIS Analysis Platform (1)" src="https://github.com/user-attachments/assets/0600a00c-1106-4646-b023-6e6567eee47f" />
+
+---
+
 ## 📊 Insights & Impact
 
 ### **Insights**

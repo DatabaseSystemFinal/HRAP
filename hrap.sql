@@ -1,11 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- 主機： ls-506ca58a193d30e1b211f908a440e5388fdb5e4a.cxq9s621pmvl.ap-southeast-1.rds.amazonaws.com
--- 產生時間： 2025 年 11 月 24 日 01:26
--- 伺服器版本： 8.0.42
--- PHP 版本： 7.4.33
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -17,15 +10,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- 資料庫： `user35`
---
-
--- --------------------------------------------------------
-
---
 -- 資料表結構 `Department`
---
 
 CREATE TABLE `Department` (
   `DepartmentID` varchar(4) NOT NULL,
@@ -35,9 +20,7 @@ CREATE TABLE `Department` (
   `UpdatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ;
 
---
 -- 傾印資料表的資料 `Department`
---
 
 INSERT INTO `Department` (`DepartmentID`, `DepartmentName`, `CostCenter`, `CreatedAt`, `UpdatedAt`) VALUES
 ('DT10', 'Human Resource', '25100010', '2025-03-06 03:14:08', '2025-03-06 03:14:08'),
@@ -50,9 +33,7 @@ INSERT INTO `Department` (`DepartmentID`, `DepartmentName`, `CostCenter`, `Creat
 
 -- --------------------------------------------------------
 
---
 -- 資料表結構 `Employee`
---
 
 CREATE TABLE `Employee` (
   `EmployeeID` varchar(10) NOT NULL,
@@ -73,9 +54,7 @@ CREATE TABLE `Employee` (
   `UpdatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
 -- 傾印資料表的資料 `Employee`
---
 
 INSERT INTO `Employee` (`EmployeeID`, `FirstName`, `LastName`, `DateOfBirth`, `Gender`, `HireDate`, `JoinDate`, `DepartmentID`, `JobTitle`, `CompEmail`, `PrivateEmail`, `PhoneNumber`, `Address`, `StatusID`, `CreatedAt`, `UpdatedAt`) VALUES
 ('51001', 'Charlotte', 'FENG', '2001-06-08', 'Female', '2022-11-09', '2022-11-09', 'DT10', 'Human Resourse Assistant', 'CharlotteFENG@stitch.com', 'pinksalt10@gmail.com', '0918493020', 'Hsinchu, Taiwan', 'ST10', '2025-03-06 08:06:09', '2025-03-11 07:29:14'),
@@ -131,9 +110,7 @@ INSERT INTO `Employee` (`EmployeeID`, `FirstName`, `LastName`, `DateOfBirth`, `G
 
 -- --------------------------------------------------------
 
---
 -- 資料表結構 `Salary`
---
 
 CREATE TABLE `Salary` (
   `SalaryID` int NOT NULL,
@@ -145,9 +122,7 @@ CREATE TABLE `Salary` (
   `UpdatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ;
 
---
 -- 傾印資料表的資料 `Salary`
---
 
 INSERT INTO `Salary` (`SalaryID`, `EmployeeID`, `DepartmentID`, `BaseSalary`, `Bonus`, `CreatedAt`, `UpdatedAt`) VALUES
 (1, '51001', 'DT10', 35000.00, 5000.00, '2025-03-06 08:16:16', '2025-03-06 08:16:16'),
@@ -203,9 +178,7 @@ INSERT INTO `Salary` (`SalaryID`, `EmployeeID`, `DepartmentID`, `BaseSalary`, `B
 
 -- --------------------------------------------------------
 
---
 -- 資料表結構 `Status`
---
 
 CREATE TABLE `Status` (
   `StatusID` varchar(4) NOT NULL,
@@ -215,9 +188,7 @@ CREATE TABLE `Status` (
   `UpdatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ;
 
---
 -- 傾印資料表的資料 `Status`
---
 
 INSERT INTO `Status` (`StatusID`, `StatusName`, `Description`, `CreatedAt`, `UpdatedAt`) VALUES
 ('ST10', 'Perm', 'Permanent Employee', '2025-03-06 03:00:35', '2025-03-06 03:00:35'),
@@ -226,19 +197,15 @@ INSERT INTO `Status` (`StatusID`, `StatusName`, `Description`, `CreatedAt`, `Upd
 ('ST20', 'Temp', 'Temporary Employee', '2025-03-06 03:00:35', '2025-03-06 03:00:35'),
 ('ST90', 'Ext', 'External Employee', '2025-03-06 03:00:35', '2025-03-06 03:00:35');
 
---
 -- 已傾印資料表的索引
---
 
---
 -- 資料表索引 `Department`
---
+
 ALTER TABLE `Department`
   ADD PRIMARY KEY (`DepartmentID`);
 
---
 -- 資料表索引 `Employee`
---
+
 ALTER TABLE `Employee`
   ADD PRIMARY KEY (`EmployeeID`),
   ADD UNIQUE KEY `CompEmail` (`CompEmail`),
@@ -246,44 +213,44 @@ ALTER TABLE `Employee`
   ADD KEY `DepartmentID` (`DepartmentID`),
   ADD KEY `StatusID` (`StatusID`);
 
---
+
 -- 資料表索引 `Salary`
---
+
 ALTER TABLE `Salary`
   ADD PRIMARY KEY (`SalaryID`),
   ADD KEY `EmployeeID` (`EmployeeID`),
   ADD KEY `DepartmentID` (`DepartmentID`);
 
---
+
 -- 資料表索引 `Status`
---
+
 ALTER TABLE `Status`
   ADD PRIMARY KEY (`StatusID`);
 
---
--- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
---
 
---
+-- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
+
+
+
 -- 使用資料表自動遞增(AUTO_INCREMENT) `Salary`
---
+
 ALTER TABLE `Salary`
   MODIFY `SalaryID` int NOT NULL AUTO_INCREMENT;
 
---
--- 已傾印資料表的限制式
---
 
---
+-- 已傾印資料表的限制式
+
+
+
 -- 資料表的限制式 `Employee`
---
+
 ALTER TABLE `Employee`
   ADD CONSTRAINT `Employee_ibfk_1` FOREIGN KEY (`DepartmentID`) REFERENCES `Department` (`DepartmentID`),
   ADD CONSTRAINT `Employee_ibfk_2` FOREIGN KEY (`StatusID`) REFERENCES `Status` (`StatusID`);
 
---
+
 -- 資料表的限制式 `Salary`
---
+
 ALTER TABLE `Salary`
   ADD CONSTRAINT `Salary_ibfk_1` FOREIGN KEY (`EmployeeID`) REFERENCES `Employee` (`EmployeeID`),
   ADD CONSTRAINT `Salary_ibfk_2` FOREIGN KEY (`DepartmentID`) REFERENCES `Department` (`DepartmentID`);

@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+import config  # <--- 1. 匯入剛剛建立的設定檔
 
 app = Flask(__name__)
-app.secret_key = "secret_key_for_session" # 用於 Flash 訊息
+app.secret_key = "secret_key_for_session"
 
 # 設定資料庫連線
-# 格式: mysql+pymysql://帳號:密碼@主機位置/資料庫名稱
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Jeremy&930915@localhost/hrap'
+# 2. 使用 f-string 讀取 config 裡的變數
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}/{config.DB_NAME}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

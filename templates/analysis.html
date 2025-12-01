@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="mb-0">
+            <i class="fa-solid fa-chart-pie me-2"></i>Employee Group Analysis Report
+        </h2>
+        <p class="text-muted mt-2">
+            This is the results of automated grouping via PCA and K-Means.
+        </p>
+    </div>
+    <div class="col-md-4 text-end">
+        <!-- Download Button -->
+        <a href="/download_analysis" class="btn btn-success">
+            <i class="fa-solid fa-file-csv me-2"></i>Export Results (CSV)
+        </a>
+    </div>
+</div>
+
+<!-- Section 1: Cluster Summary Card -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 text-primary">
+            <i class="fa-solid fa-list-ol me-2"></i>Cluster Summary
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info border-0 bg-light">
+            <i class="fa-solid fa-circle-info me-2"></i>
+            <strong>Explanation: </strong> This table shows the average features of each group. 
+        
+        <div class="table-responsive">
+            <!-- Added text-center here to align headers and content -->
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Cluster ID</th>
+                        <th>Count</th>
+                        <th>Average Age</th>
+                        <th>Average Tenure</th>
+                        <th>Average Salary</th>
+                        <th>Average Bonus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in summary_data %}
+                        <!-- Color coding logic for consistency -->
+                        {% set row_class = '' %}
+                        {% if row.Cluster_ID == 0 %}
+                            {% set row_class = 'table-primary' %}
+                        {% elif row.Cluster_ID == 1 %}
+                            {% set row_class = 'table-success' %}
+                        {% elif row.Cluster_ID == 2 %}
+                            {% set row_class = 'table-warning' %}
+                        {% else %}
+                            {% set row_class = 'table-light' %}
+                        {% endif %}
+
+                        <tr>
+                            <!-- Colored Cluster ID Cell -->
+                            <td class="fw-bold {{ row_class }}" style="--bs-table-bg-opacity: .2;">
+                                {{ row.Cluster_ID }}
+                            </td>
+                            <td>{{ row.Count }}</td>
+                            <td>{{ row.Age }} 歲</td>
+                            <td>{{ row.Tenure }} 年</td>
+                            <!-- Adding '$' and commas for better readability -->
+                            <td>${{ "{:,.0f}".format(row.BaseSalary) }}</td>
+                            <td>${{ "{:,.0f}".format(row.Bonus) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Section 1.5: Insights Card -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 text-primary">
+            <i class="fa-solid fa-lightbulb me-2"></i>AI Clustering Insights
+        </h5>
+    </div>
+    <div class="card-body">
+        <p class="text-muted mb-4">
+            Based on the K-Means algorithm analysis of salary structures and tenure, the system has identified four distinct employee personas:
+        </p>
+        
+        <div class="row g-3">
+            <!-- Cluster 0: Blue (Interns/Temps) -->
+            <div class="col-md-6 col-xl-3">
+                <div class="alert alert-primary h-100 border-0 shadow-sm">
+                    <h5 class="alert-heading fw-bold">
+                        <i class="fa-solid fa-id-badge me-2"></i>Cluster 0
+                    </h5>
+                    <hr>
+                    <h6 class="fw-bold">Interns & Contingent Staff</h6>
+                    <ul class="small mb-0 ps-3">
+                        <li><strong>Profile:</strong> Lowest base salary with significantly low bonuses ($2.5k).</li>
+                        <li><strong>Tenure:</strong> Least experienced (Avg 2.7 years).</li>
+                        <li><strong>Insight:</strong> Likely short-term or non-core staff. This group typically carries a higher turnover risk.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cluster 1: Green (Specialists) -->
+            <div class="col-md-6 col-xl-3">
+                <div class="alert alert-success h-100 border-0 shadow-sm">
+                    <h5 class="alert-heading fw-bold">
+                        <i class="fa-solid fa-briefcase me-2"></i>Cluster 1
+                    </h5>
+                    <hr>
+                    <h6 class="fw-bold">Mid-Level Specialists</h6>
+                    <ul class="small mb-0 ps-3">
+                        <li><strong>Profile:</strong> Mid-High salary ($56k) with healthy bonuses.</li>
+                        <li><strong>Tenure:</strong> Solid experience (Avg 7.3 years).</li>
+                        <li><strong>Insight:</strong> Smallest group (3 people). Likely specialized experts or team leads bridging the gap between juniors and management.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cluster 2: Yellow (Seniors) -->
+            <div class="col-md-6 col-xl-3">
+                <div class="alert alert-warning h-100 border-0 shadow-sm">
+                    <h5 class="alert-heading fw-bold">
+                        <i class="fa-solid fa-crown me-2"></i>Cluster 2
+                    </h5>
+                    <hr>
+                    <h6 class="fw-bold">Senior Core & Leadership</h6>
+                    <ul class="small mb-0 ps-3">
+                        <li><strong>Profile:</strong> Highest salary ($71k) and highest bonuses.</li>
+                        <li><strong>Tenure:</strong> Highly senior (Avg 12.4 years).</li>
+                        <li><strong>Insight:</strong> Largest group (23 people). Indicates a stable core workforce or a potentially top-heavy organizational structure.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cluster 3: Gray (Juniors) -->
+            <div class="col-md-6 col-xl-3">
+                <div class="alert bg-light border h-100 shadow-sm">
+                    <h5 class="alert-heading fw-bold text-dark">
+                        <i class="fa-solid fa-user me-2"></i>Cluster 3
+                    </h5>
+                    <hr>
+                    <h6 class="fw-bold">Junior Associates</h6>
+                    <ul class="small mb-0 ps-3">
+                        <li><strong>Profile:</strong> Low-Mid salary ($40k) but receiving standard bonuses.</li>
+                        <li><strong>Tenure:</strong> Young professionals (Avg 3.5 years).</li>
+                        <li><strong>Insight:</strong> The operational engine. Distinct from Cluster 0 due to permanent staff benefits structure.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 2: Detailed List Card -->
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 text-primary">
+            <i class="fa-solid fa-users-viewfinder me-2"></i>Detailed Employee Group List
+        </h5>
+    </div>
+    <div class="card-body">
+        <p class="text-muted mb-3">
+            Displays each employee's data, sorted by<strong> Cluster ID (0-3)</strong>.
+        </p>
+        
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-light text-center">
+                    <tr>
+                        <th>Cluster ID</th>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Job Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in details_data %}
+                        <!-- Logic to change row color based on Cluster ID for better visual grouping -->
+                        {% set row_class = '' %}
+                        {% if row.Cluster_ID == 0 %}
+                            {% set row_class = 'table-primary' %} <!-- Blue tint -->
+                        {% elif row.Cluster_ID == 1 %}
+                            {% set row_class = 'table-success' %} <!-- Green tint -->
+                        {% elif row.Cluster_ID == 2 %}
+                            {% set row_class = 'table-warning' %} <!-- Yellow tint -->
+                        {% else %}
+                            {% set row_class = 'table-light' %}   <!-- Gray tint -->
+                        {% endif %}
+
+                        <tr class="text-center">
+                            <!-- Highlight the Cluster ID column -->
+                            <td class="fw-bold {{ row_class }}" style="--bs-table-bg-opacity: .2;">
+                                {{ row.Cluster_ID }}
+                            </td>
+                            <td>{{ row.EmployeeID }}</td>
+                            <td>{{ row.FirstName }} {{ row.LastName }}</td>
+                            <td>{{ row.DepartmentName }}</td>
+                            <td>{{ row.JobTitle }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

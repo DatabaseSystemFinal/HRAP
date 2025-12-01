@@ -3,12 +3,12 @@
 {% block content %}
 <div class="card shadow">
     <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-        <h5 class="m-0 font-weight-bold text-primary">員工列表</h5>
+        <h5 class="m-0 font-weight-bold text-primary">Employee List</h5>
         <form class="d-flex" action="{{ url_for('index') }}" method="get">
-            <input class="form-control me-2" type="search" name="q" placeholder="搜尋姓名或Email..." value="{{ search_query or '' }}">
-            <button class="btn btn-outline-primary" type="submit">搜尋</button>
+            <input class="form-control me-2" type="search" name="q" placeholder="Search by Name or Email..." value="{{ search_query or '' }}">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
             {% if search_query %}
-            <a href="{{ url_for('index') }}" class="btn btn-link">清除</a>
+            <a href="{{ url_for('index') }}" class="btn btn-link">Clear</a>
             {% endif %}
         </form>
     </div>
@@ -18,12 +18,12 @@
                 <thead class="table-light">
                     <tr>
                         <th>ID</th>
-                        <th>姓名</th>
-                        <th>職稱</th>
-                        <th>部門</th>
+                        <th>Name</th>
+                        <th>Job Title</th>
+                        <th>Department</th>
                         <th>Email</th>
-                        <th>狀態</th>
-                        <th>操作</th>
+                        <th>Status</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,9 +36,9 @@
                         <td>{{ emp.CompEmail }}</td>
                         <td>
                             {% if emp.StatusID == 'ST10' %}
-                                <span class="badge bg-success">正式</span>
+                                <span class="badge bg-success">Permanent</span>
                             {% elif emp.StatusID == 'ST11' %}
-                                <span class="badge bg-warning text-dark">試用</span>
+                                <span class="badge bg-warning text-dark">Probation</span>
                             {% else %}
                                 <span class="badge bg-secondary">{{ emp.status.StatusName }}</span>
                             {% endif %}
@@ -54,16 +54,16 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">確認刪除</h5>
+                                            <h5 class="modal-title">Confirm Deletion</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            確定要刪除員工 <strong>{{ emp.FirstName }} {{ emp.LastName }}</strong> 嗎？此操作無法復原。
+                                            Are you sure to delete <strong>{{ emp.FirstName }} {{ emp.LastName }}</strong>? This process can't be undone.
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                             <form action="{{ url_for('delete_employee', id=emp.EmployeeID) }}" method="POST" style="display:inline;">
-                                                <button type="submit" class="btn btn-danger">確認刪除</button>
+                                                <button type="submit" class="btn btn-danger">Confirm Deletion</button>
                                             </form>
                                         </div>
                                     </div>
@@ -73,7 +73,7 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">沒有找到相關員工資料</td>
+                        <td colspan="7" class="text-center text-muted py-4">No employee data found</td>
                     </tr>
                     {% endfor %}
                 </tbody>

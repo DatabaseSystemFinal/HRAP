@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, Response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 import config  # <--- 1. 匯入剛剛建立的設定檔
+from analysis import get_analysis_results 
 
 app = Flask(__name__)
 app.secret_key = "secret_key_for_session"
@@ -115,11 +116,11 @@ def add_employee():
             db.session.add(new_emp)
             db.session.add(new_salary)
             db.session.commit()
-            flash('員工新增成功！', 'success')
+            flash('New employee added!', 'success')
             return redirect(url_for('index'))
         except Exception as e:
             db.session.rollback()
-            flash(f'新增失敗: {str(e)}', 'danger')
+            flash(f'Addition failed: {str(e)}', 'danger')
 
     departments = Department.query.all()
     statuses = Status.query.all()
@@ -156,11 +157,11 @@ def edit_employee(id):
                 db.session.add(new_salary)
 
             db.session.commit()
-            flash('員工資料更新成功！', 'success')
+            flash('Employee data sucessfully updated!', 'success')
             return redirect(url_for('index'))
         except Exception as e:
             db.session.rollback()
-            flash(f'更新失敗: {str(e)}', 'danger')
+            flash(f'Update failed: {str(e)}', 'danger')
 
     departments = Department.query.all()
     statuses = Status.query.all()
@@ -173,11 +174,31 @@ def delete_employee(id):
         # 因為 Salary 設定了 cascade，刪除 Employee 會自動處理 (或手動刪除)
         db.session.delete(employee)
         db.session.commit()
-        flash('員工已刪除', 'warning')
+        flash('Employee deleted.', 'warning')
     except Exception as e:
         db.session.rollback()
-        flash(f'刪除失敗: {str(e)}', 'danger')
+        flash(f'Deletion failed: {str(e)}', 'danger')
     return redirect(url_for('index'))
+
+@app.route('/analysis')
+def analysis_page():
+    summary_data, details_data = get_analysis_results()
+    return render_template('analysis.html', 
+                           summary_data=summary_data, 
+                           details_data=details_data) # Pass the list, not the HTML string
+
+# OPTIONAL: Route to download the CSV
+@app.route('/download_analysis')
+def download_csv():
+    df_results, _ = get_analysis_results()
+    return Response(
+        df_results.to_csv(index=False),
+        mimetype="text/csv",
+        headers={"Content-disposition": "attachment; filename=employee_analysis.csv"}
+    )
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -66,9 +66,12 @@ def index():
     search_query = request.args.get('q')
     if search_query:
         # 搜尋名字、Email 或 ID
+        # 使用 func.concat 來支援全名搜尋 (FirstName + space + LastName)
+        full_name = func.concat(Employee.FirstName, ' ', Employee.LastName)
         employees = Employee.query.filter(
             (Employee.FirstName.contains(search_query)) | 
             (Employee.LastName.contains(search_query)) |
+            (full_name.contains(search_query)) |
             (Employee.CompEmail.contains(search_query)) |
             (Employee.EmployeeID.contains(search_query))
         ).all()
@@ -190,15 +193,17 @@ def analysis_page():
 # OPTIONAL: Route to download the CSV
 @app.route('/download_analysis')
 def download_csv():
-    df_results, _ = get_analysis_results()
+    import pandas as pd
+    summary_data, details_data = get_analysis_results()
+    
+    # Convert the details_data (list of dicts) to a DataFrame
+    df_results = pd.DataFrame(details_data)
+    
     return Response(
         df_results.to_csv(index=False),
         mimetype="text/csv",
         headers={"Content-disposition": "attachment; filename=employee_analysis.csv"}
     )
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 if __name__ == '__main__':
     app.run(debug=True)

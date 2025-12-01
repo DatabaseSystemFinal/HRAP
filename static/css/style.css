@@ -1,0 +1,189 @@
+/* ============================================
+   HRAP Platform - Light/Dark Mode Styles
+   ============================================ */
+
+/* CSS Variables for Theme Colors */
+:root {
+    --transition-speed: 0.3s;
+}
+
+/* Light Mode Colors (Bootstrap Default) */
+[data-bs-theme="light"] {
+    --body-bg: #f8f9fa;
+    --body-color: #212529;
+    --card-bg: #ffffff;
+    --card-border: rgba(0, 0, 0, 0.125);
+    --navbar-bg: #0d6efd;
+    --table-hover-bg: rgba(0, 0, 0, 0.075);
+}
+
+/* Dark Mode Colors */
+[data-bs-theme="dark"] {
+    --body-bg: #212529;
+    --body-color: #dee2e6;
+    --card-bg: #2b3035;
+    --card-border: rgba(255, 255, 255, 0.125);
+    --navbar-bg: #1a4d8f;
+    --table-hover-bg: rgba(255, 255, 255, 0.075);
+}
+
+/* Smooth Transitions */
+body,
+.card,
+.table,
+.navbar,
+.btn,
+.alert,
+.form-control,
+.form-select {
+    transition: background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease,
+                border-color var(--transition-speed) ease;
+}
+
+/* Body Styling */
+body {
+    background-color: var(--body-bg);
+    color: var(--body-color);
+}
+
+/* Card Styling */
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+.card-header.bg-white {
+    background-color: var(--card-bg) !important;
+}
+
+/* Dark Mode Specific Overrides */
+[data-bs-theme="dark"] .card-header.bg-white {
+    border-bottom: 1px solid var(--card-border);
+}
+
+[data-bs-theme="dark"] .table {
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.05);
+    --bs-table-hover-bg: var(--table-hover-bg);
+    color: var(--body-color);
+}
+
+[data-bs-theme="dark"] .table-light {
+    --bs-table-bg: rgba(255, 255, 255, 0.1);
+    --bs-table-color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .bg-light {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--body-color) !important;
+}
+
+[data-bs-theme="dark"] .text-muted {
+    color: #adb5bd !important;
+}
+
+/* Alert Styling for Dark Mode */
+[data-bs-theme="dark"] .alert-info {
+    background-color: rgba(13, 202, 240, 0.2);
+    border-color: rgba(13, 202, 240, 0.3);
+    color: #9eeaf9;
+}
+
+[data-bs-theme="dark"] .alert-primary {
+    background-color: rgba(13, 110, 253, 0.2);
+    border-color: rgba(13, 110, 253, 0.3);
+    color: #9ec5fe;
+}
+
+[data-bs-theme="dark"] .alert-success {
+    background-color: rgba(25, 135, 84, 0.2);
+    border-color: rgba(25, 135, 84, 0.3);
+    color: #a3cfbb;
+}
+
+[data-bs-theme="dark"] .alert-warning {
+    background-color: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #ffe69c;
+}
+
+/* Theme Toggle Button Styling */
+.theme-toggle {
+    background: none;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: rotate(20deg);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95) rotate(20deg);
+}
+
+/* Form Elements in Dark Mode */
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #2b3035;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    background-color: #2b3035;
+    border-color: #86b7fe;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .form-control::placeholder {
+    color: #6c757d;
+}
+
+/* Badge Styling for Dark Mode */
+[data-bs-theme="dark"] .badge.bg-info {
+    background-color: #0dcaf0 !important;
+    color: #000 !important;
+}
+
+/* Modal Styling for Dark Mode */
+[data-bs-theme="dark"] .modal-content {
+    background-color: var(--card-bg);
+    color: var(--body-color);
+}
+
+[data-bs-theme="dark"] .modal-header {
+    border-bottom-color: var(--card-border);
+}
+
+[data-bs-theme="dark"] .modal-footer {
+    border-top-color: var(--card-border);
+}
+
+/* Navbar Dark Mode Enhancement */
+[data-bs-theme="dark"] .navbar-dark {
+    background-color: var(--navbar-bg) !important;
+}
+
+/* Table Border Colors */
+[data-bs-theme="dark"] .table-bordered {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-bs-theme="dark"] .table-bordered th,
+[data-bs-theme="dark"] .table-bordered td {
+    border-color: rgba(255, 255, 255, 0.2);
+}

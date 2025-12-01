@@ -4,3 +4,4 @@ SQLAlchemy
 PyMySQL
 scikit-learn
 pandas
+cryptography

@@ -63,8 +63,8 @@
                                 {{ row.Cluster_ID }}
                             </td>
                             <td>{{ row.Count }}</td>
-                            <td>{{ row.Age }} 歲</td>
-                            <td>{{ row.Tenure }} 年</td>
+                            <td>{{ row.Age }} yrs</td>
+                            <td>{{ row.Tenure }} yrs</td>
                             <!-- Adding '$' and commas for better readability -->
                             <td>${{ "{:,.0f}".format(row.BaseSalary) }}</td>
                             <td>${{ "{:,.0f}".format(row.Bonus) }}</td>
@@ -80,7 +80,7 @@
 <div class="card shadow-sm mb-4">
     <div class="card-header bg-white py-3">
         <h5 class="mb-0 text-primary">
-            <i class="fa-solid fa-lightbulb me-2"></i>AI Clustering Insights
+            <i class="fa-solid fa-lightbulb me-2"></i>Clustering Insights
         </h5>
     </div>
     <div class="card-body">

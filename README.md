@@ -1,56 +1,81 @@
-# HRAP  
-## HRIS Analysis Platform  
-📺 **Proposal Video:** https://youtu.be/NAzth4Bz-Ag
+# HRAP - HRIS Analysis Platform
+
+## 🚀 Project Overview
+**HRAP (Human Resource Analysis Platform)** is a comprehensive web-based application designed to modernize HR data management and decision-making. By integrating **Machine Learning (Random Forest)** with traditional **HRIS functionalities**, HRAP goes beyond simple data storage to provide actionable insights into employee turnover risk and salary alignment.
+
+📺 **Proposal Video:** [Watch on YouTube](https://youtu.be/NAzth4Bz-Ag)
 
 ---
 
-## 🔍 Motivation
-In our **Data Mining** course, we used PCA, K-Means, and One-Hot Encoding.  
-In **People Analytics**, we practiced analyzing HR data using Excel and MySQL.  
-In **Database Systems**, we built applications using Flask with MySQL and MongoDB.
+## 🔍 Key Features
 
-To combine these skills, we created a **web-based HR analysis platform** that turns our academic learning into a practical real-world project.
+### 1. **Core HRIS (CRUD System)**
+- **Create**: Onboard new employees with ease.
+- **Read**: View detailed employee profiles and salary information.
+- **Update**: Modify employee records and salary details.
+- **Delete**: Remove inactive employee records.
+- **Search**: Quickly find employees by Name or ID.
 
----
+### 2. **Advanced Analytics Dashboard**
+- **Automated Clustering**: Uses **PCA** and **K-Means** to group employees into distinct personas (e.g., Junior Associates, Senior Leaders) based on tenure and salary.
+- **Visual Insights**: Interactive charts and summaries to understand workforce composition.
 
-## ❗ Problem Statement
-HR departments often spend large amounts of time manually organizing data.  
-These manual processes are slow, error-prone, and make data-driven decisions difficult.
+### 3. **Predictive Machine Learning** 🤖
+- **Turnover Risk Prediction**:
+  - Uses a **Random Forest Classifier** to estimate the probability of an employee leaving.
+  - Classifies employees into **High**, **Medium**, and **Low** risk categories.
+  - **New**: "Risk Probability" now specifically indicates the likelihood of being **High Risk**, providing a clear warning signal.
+- **Salary Alignment Analysis**:
+  - Uses a **Random Forest Regressor** to predict market-value salaries based on role, experience, and department.
+  - Identifies employees who are **Underpaid (Below Market)**, **Overpaid (Above Market)**, or **Market Aligned**.
 
----
-
-## 💡 Our Solution
-
-### **Frontend**
-- Flask templates  
-- PCA + K-Means visualization dashboard  
-- Interactive UI for analysis results  
-
-### **Backend**
-- Flask server  
-- CRUD APIs (Employee, Department, Status, Salary)  
-- Input validation and routing  
-
-### **Database**
-- MySQL  
-- Secure storage of sensitive fields (name, birth date, salary)
+### 4. **Actionable Reporting**
+- **Detailed Classification Lists**: Expandable lists to view specific employees in each risk or salary category.
+- **CSV Export**: One-click export of the complete analysis, including ML predictions, for further offline processing.
 
 ---
 
-## 🧩 Features
+## 🛠️ Technology Stack
 
-### ✔ **CRUD System**
-- **Create**: Add new employee data  
-- **Read**: Display employee records  
-- **Update**: Edit existing information  
-- **Delete**: Remove employee entries  
+- **Frontend**: HTML5, CSS3, Bootstrap 5, Jinja2 Templates
+- **Backend**: Python, Flask
+- **Database**: MySQL (SQLAlchemy ORM)
+- **Machine Learning**: Scikit-learn (Random Forest, PCA, K-Means), Pandas
+- **Tools**: Git, Visual Studio Code
 
-### ✔ **Data Analysis Dashboard**
-- One-Hot Encoding  
-- PCA dimensionality reduction  
-- K-Means clustering  
-- Clustered DataFrame visualization  
-- Trend and pattern extraction
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Prerequisites
+- Python 3.8+
+- MySQL Server
+
+### 2. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Database Configuration
+Create a `config.py` file in the root directory:
+```python
+DB_HOST = "localhost"
+DB_USER = "your_username"
+DB_PASSWORD = "your_password"
+DB_NAME = "HRAP_DB"
+```
+
+### 4. Train Models
+Before running the analysis, ensure the ML models are trained:
+```bash
+python train_models.py
+```
+
+### 5. Run the Application
+```bash
+python app.py
+```
+Visit `http://127.0.0.1:5000` in your browser.
 
 ---
 
@@ -62,40 +87,23 @@ Below is the Entity-Relationship Diagram for our HRAP system:
 
 ---
 
-## 📊 Insights & Impact
-
-### **Insights**
-- Clustered employees by **salary**, **department**, and **performance**  
-- Found relationships between pay, role, and department  
-- Reduced data complexity with PCA
-
-### **Impact**
-- Enabled **data-driven HR decision-making**  
-- Improved retention and workforce planning  
-- Reduced time spent on manual spreadsheet operations  
-
----
-
-## 👥 Team Roles & Responsibilities
+## 👥 Team & Responsibilities
 
 | Member | Responsibilities |
 |--------|------------------|
-| **洪明凱** | Update, Delete |
-| **高郁城** | Create, Read |
-| **李東璟** | Search |
-| **All Members** | Data Analysis Dashboard |
+| **洪明凱** | Update, Delete Functions |
+| **高郁城** | Create, Read Functions |
+| **李東璟** | Search Functionality |
+| **All Members** | Data Analysis Dashboard & ML Integration |
 
 ---
 
-## 📅 Weekly Progress Schedule
+## 📅 Development Timeline
 
 | Week | Task |
 |------|------|
-| **W12** | Create, Read |
-| **W13** | Update, Delete |
-| **W14** | Search |
-| **W15** | Data Analysis Dashboard |
-| **W16** | Upload final video |
-
----
-
+| **W12** | Core CRUD (Create, Read) |
+| **W13** | Core CRUD (Update, Delete) |
+| **W14** | Search Implementation |
+| **W15** | Data Analysis & ML Integration |
+| **W16** | Final Polish & Video Submission |

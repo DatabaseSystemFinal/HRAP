@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, Res
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 import config  # <--- 1. 匯入剛剛建立的設定檔
-from analysis import get_analysis_results 
+from analysis import get_analysis_results
+from prediction import get_prediction_results
 
 app = Flask(__name__)
 app.secret_key = "secret_key_for_session"
@@ -150,7 +151,7 @@ def edit_employee(id):
                 salary.Bonus = request.form['Bonus']
                 salary.DepartmentID = request.form['DepartmentID'] # 更新部門時同步更新薪資表的部門
             else:
-                # 如果原本沒有薪資資料，則新增
+                # 如果原本沒有薪資資料,則新增
                 new_salary = Salary(
                     EmployeeID=id,
                     DepartmentID=request.form['DepartmentID'],
@@ -174,7 +175,7 @@ def edit_employee(id):
 def delete_employee(id):
     try:
         employee = Employee.query.get_or_404(id)
-        # 因為 Salary 設定了 cascade，刪除 Employee 會自動處理 (或手動刪除)
+        # 因為 Salary 設定了 cascade,刪除 Employee 會自動處理 (或手動刪除)
         db.session.delete(employee)
         db.session.commit()
         flash('Employee deleted.', 'warning')
@@ -186,23 +187,38 @@ def delete_employee(id):
 @app.route('/analysis')
 def analysis_page():
     summary_data, details_data = get_analysis_results()
+    prediction_data = get_prediction_results()
     return render_template('analysis.html', 
                            summary_data=summary_data, 
-                           details_data=details_data) # Pass the list, not the HTML string
+                           details_data=details_data,
+                           prediction_data=prediction_data)
 
 # OPTIONAL: Route to download the CSV
 @app.route('/download_analysis')
 def download_csv():
     import pandas as pd
     summary_data, details_data = get_analysis_results()
+    prediction_data = get_prediction_results()
     
     # Convert the details_data (list of dicts) to a DataFrame
     df_results = pd.DataFrame(details_data)
     
+    # Add prediction data
+    df_predictions = pd.DataFrame(prediction_data['details'])
+    
+    # Merge clustering and prediction data
+    df_combined = pd.merge(
+        df_results, 
+        df_predictions[['EmployeeID', 'TurnoverRisk', 'TurnoverRisk_Probability', 
+                        'PredictedSalary', 'SalaryDifference', 'SalaryAlignment']], 
+        on='EmployeeID', 
+        how='left'
+    )
+    
     return Response(
-        df_results.to_csv(index=False),
+        df_combined.to_csv(index=False),
         mimetype="text/csv",
-        headers={"Content-disposition": "attachment; filename=employee_analysis.csv"}
+        headers={"Content-disposition": "attachment; filename=employee_analysis_with_predictions.csv"}
     )
 
 if __name__ == '__main__':
